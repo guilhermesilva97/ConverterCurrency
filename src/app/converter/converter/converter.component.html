@@ -1,0 +1,54 @@
+<br />
+<div class="alert alert-danger" role="alert" *ngIf="_error">
+	Erro obtendo dados. Tente novamente.
+</div>
+
+<div class="card">
+	<div class="card-header" style="background-color: darkseagreen;">
+		Selecione a moeda a ser convertida
+	</div>
+
+	<div class="card-body text-center">
+		<form class="form-inline" #converterForm="ngForm">
+			<input [(ngModel)]="_converter.value" type="number" name="valor" class="form-control text-right" [disabled]="!newConsult"
+				placeholder="0" required>
+
+			<select name="moedaDe" class="form-control" [(ngModel)]="_converter.currencyOf" required
+				style="margin-left: 10px; width: 70px;" disabled>
+				<option *ngFor="let currency of _listCurrency" [value]="currency.sigla">
+					{{ currency.sigla }}
+				</option>
+			</select>
+
+
+			<span style="margin-left: 10px;"><b>--></b></span>
+
+			<select name="moedaPara" class="form-control" required [(ngModel)]="_converter.currencyFor" [disabled]="!newConsult"
+				style="margin-left: 10px; width: 70px;">
+				<option *ngFor="let currency of _listCurrency" [value]="currency.sigla">
+					{{ currency.sigla }}
+				</option>
+			</select>
+
+			<input type="submit" value="Converter" style="margin-left: 10px;" class="btn btn-success"
+				(click)="converter()" [disabled]="!converterForm.form.valid">
+		</form>
+	</div>
+
+	<div class="card-body text-center" *ngIf="showResults">
+		
+		<h2>
+			{{ _converter.value }}
+			{{ _converter.currencyOf }}
+			=
+			{{ valorConvertido }}
+			{{ _converter.currencyFor }}
+		</h2>
+		<p>
+			1 {{ _converter.currencyFor }} =
+			{{ cotacaoPara }} {{ _converter.currencyOf }}
+		</p>
+		<button class="btn btn-success" (click)="startNewConsult()">Nova Consulta</button>
+	</div>
+
+</div>
